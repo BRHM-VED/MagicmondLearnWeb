@@ -6,7 +6,7 @@ export type ApplicationForm = {
   email: string;
   mobileNumber: string;
   track: string;
-  cvFile: File | null;
+  cvLink: string;
   agreeNDA: boolean;
 };
 
@@ -20,7 +20,7 @@ export function useHomePage() {
     email: '',
     mobileNumber: '',
     track: 'Website Development',
-    cvFile: null,
+    cvLink: '',
     agreeNDA: false,
   });
 
@@ -42,13 +42,9 @@ export function useHomePage() {
     setForm((prev) => ({ ...prev, [name]: checked }));
   };
 
-  const handleFileChange = (file: File | null) => {
-    setForm((prev) => ({ ...prev, cvFile: file }));
-  };
-
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!form.fullName || !form.email || !form.mobileNumber || !form.agreeNDA) {
+    if (!form.fullName || !form.email || !form.mobileNumber || !form.cvLink || !form.agreeNDA) {
       alert('Please fill out all required fields and agree to the NDA.');
       return;
     }
@@ -57,8 +53,25 @@ export function useHomePage() {
     setSubmitStatus('idle');
 
     try {
-      // Simulate API call
-      await new Promise((resolve) => setTimeout(resolve, 1500));
+      const response = await fetch('https://backend.magicmond.com/api/MagicMondLearnRegistration', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          fullName: form.fullName,
+          email: form.email,
+          phoneNumber: form.mobileNumber,
+          masteryTrack: form.track,
+          cvLink: form.cvLink,
+          ndaAgree: form.agreeNDA ? 'Yes' : 'No',
+        }),
+      });
+
+      if (!response.ok) {
+        throw new Error('Failed to submit registration');
+      }
+
       setSubmitStatus('success');
       alert('Application submitted successfully! Our team will contact you soon.');
       // Reset form
@@ -67,7 +80,7 @@ export function useHomePage() {
         email: '',
         mobileNumber: '',
         track: 'Website Development',
-        cvFile: null,
+        cvLink: '',
         agreeNDA: false,
       });
     } catch (error) {
@@ -85,7 +98,6 @@ export function useHomePage() {
     submitStatus,
     handleInputChange,
     handleCheckboxChange,
-    handleFileChange,
     handleSubmit,
   };
 }

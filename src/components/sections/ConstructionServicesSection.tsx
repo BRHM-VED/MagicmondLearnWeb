@@ -134,6 +134,56 @@ export default function ConstructionServicesSection() {
           ))}
         </div>
 
+        {/* Many More Learning Section */}
+        <div className="w-full mt-4 p-8 bg-linear-to-r from-purple-950/20 via-zinc-900/40 to-pink-950/10 rounded-xl border border-purple-300/10 backdrop-blur-[6px] flex flex-col md:flex-row items-center justify-between gap-8 relative overflow-hidden group hover:border-purple-300/20 transition-all duration-300">
+          {/* Decorative background glow */}
+          <div className="absolute -right-20 -top-20 w-60 h-60 bg-purple-500/10 rounded-full blur-3xl pointer-events-none group-hover:bg-purple-500/15 transition-all duration-300" />
+          <div className="absolute -left-20 -bottom-20 w-60 h-60 bg-pink-500/5 rounded-full blur-3xl pointer-events-none" />
+
+          {/* Left Side: Text Content */}
+          <div className="flex flex-col gap-3 text-left relative z-10 max-w-[600px]">
+            <div className="flex items-center gap-2">
+              <span className="relative flex h-2 w-2">
+                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-purple-400 opacity-75"></span>
+                <span className="relative inline-flex rounded-full h-2 w-2 bg-purple-300"></span>
+              </span>
+              <span className="text-purple-300 text-xs font-semibold font-geist uppercase tracking-wider">
+                REAL-WORLD EXPERIENCE
+              </span>
+            </div>
+            <h3 className="text-zinc-200 text-3xl font-semibold font-sans leading-tight">
+              Building Real Industry Projects
+            </h3>
+            <p className="text-zinc-400 text-sm font-geist leading-relaxed">
+              We mostly give and assign Realtime Learning Projects. You will build, deploy, and maintain actual production-grade applications that solve genuine business problems.
+            </p>
+          </div>
+
+          {/* Right Side: Interactive/Animated Floating Badges */}
+          <div className="flex flex-wrap gap-2.5 max-w-[450px] justify-center md:justify-end relative z-10">
+            {[
+              { name: 'SaaS Platforms', delay: '0s' },
+              { name: 'Realtime Dashboards', delay: '0.4s' },
+              { name: 'AI-Powered Agents', delay: '0.8s' },
+              { name: 'E-Commerce Engines', delay: '1.2s' },
+              { name: 'Payment Gateways', delay: '1.6s' },
+              { name: 'API Integrations', delay: '2.0s' },
+              { name: 'Enterprise Systems', delay: '2.4s' },
+            ].map((tag, idx) => (
+              <span
+                key={idx}
+                className="px-4 py-2 bg-zinc-950/80 text-zinc-300 text-xs sm:text-sm font-medium font-geist rounded-full border border-neutral-800 hover:border-purple-300/30 hover:text-purple-300 transition-all duration-300 cursor-default shadow-sm hover:scale-105 transform animate-pulse"
+                style={{
+                  animationDelay: tag.delay,
+                  animationDuration: '3s'
+                }}
+              >
+                {tag.name}
+              </span>
+            ))}
+          </div>
+        </div>
+
       </div>
     </section>
   );

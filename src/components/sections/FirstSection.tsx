@@ -1,4 +1,3 @@
-import { useRef } from 'react';
 import { Link } from 'react-router-dom';
 import { useHomePage } from '../../controllers/useHomePage';
 import magicMondLogo from '../../assets/MagicMondLogo.svg';
@@ -12,28 +11,8 @@ export default function FirstSection() {
     isSubmitting,
     handleInputChange,
     handleCheckboxChange,
-    handleFileChange,
     handleSubmit,
   } = useHomePage();
-
-  const fileInputRef = useRef<HTMLInputElement>(null);
-
-  const handleDragOver = (e: React.DragEvent) => {
-    e.preventDefault();
-  };
-
-  const handleDrop = (e: React.DragEvent) => {
-    e.preventDefault();
-    if (e.dataTransfer.files && e.dataTransfer.files[0]) {
-      handleFileChange(e.dataTransfer.files[0]);
-    }
-  };
-
-  const handleFileSelect = (e: React.ChangeEvent<HTMLInputElement>) => {
-    if (e.target.files && e.target.files[0]) {
-      handleFileChange(e.target.files[0]);
-    }
-  };
 
   const scrollToTracks = () => {
     const tracksElement = document.getElementById('specializations');
@@ -205,31 +184,20 @@ export default function FirstSection() {
                 </div>
               </div>
 
-              {/* Upload CV */}
+              {/* CV Link */}
               <div className="flex flex-col gap-1.5">
                 <label className="text-purple-300 text-xs font-medium font-geist tracking-wide uppercase opacity-80">
-                  UPLOAD CV (PDF)
+                  CV LINK (GOOGLE DRIVE / DROPBOX / ONEDRIVE)
                 </label>
-                <div
-                  onDragOver={handleDragOver}
-                  onDrop={handleDrop}
-                  onClick={() => fileInputRef.current?.click()}
-                  className="w-full p-4 rounded-lg border-2 border-dashed border-neutral-600 hover:border-purple-300 bg-zinc-950/30 flex flex-col items-center gap-2 cursor-pointer transition-colors duration-200"
-                >
-                  <input
-                    type="file"
-                    ref={fileInputRef}
-                    onChange={handleFileSelect}
-                    accept=".pdf"
-                    className="hidden"
-                  />
-                  <svg className="w-6 h-6 text-zinc-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12" />
-                  </svg>
-                  <span className="text-zinc-300 text-xs font-medium font-hanken text-center leading-normal">
-                    {form.cvFile ? form.cvFile.name : 'Drag and drop or click to upload'}
-                  </span>
-                </div>
+                <input
+                  type="url"
+                  name="cvLink"
+                  value={form.cvLink}
+                  onChange={handleInputChange}
+                  placeholder="https://drive.google.com/..."
+                  required
+                  className="w-full px-4 py-3 bg-zinc-950 text-zinc-200 placeholder-gray-500 font-hanken text-base rounded-lg border border-neutral-600 focus:border-purple-300 focus:outline-none transition-colors duration-200"
+                />
               </div>
 
               {/* NDA Agreement */}
@@ -252,9 +220,19 @@ export default function FirstSection() {
               <button
                 type="submit"
                 disabled={isSubmitting}
-                className="w-full py-4 bg-purple-300 hover:bg-purple-200 active:bg-purple-400 disabled:bg-purple-300/50 disabled:cursor-not-allowed text-purple-950 text-lg font-semibold font-sans rounded-full shadow-[0px_25px_50px_-12px_rgba(221,183,255,0.2)] transition-all duration-200 cursor-pointer text-center"
+                className="w-full py-4 bg-purple-300 hover:bg-purple-200 active:bg-purple-400 disabled:bg-purple-300/50 disabled:cursor-not-allowed text-purple-950 text-lg font-semibold font-sans rounded-full shadow-[0px_25px_50px_-12px_rgba(221,183,255,0.2)] transition-all duration-200 cursor-pointer flex items-center justify-center gap-2"
               >
-                {isSubmitting ? 'Submitting...' : 'Submit Application'}
+                {isSubmitting ? (
+                  <>
+                    <svg className="animate-spin h-5 w-5 text-purple-950" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                      <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
+                      <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.001 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                    </svg>
+                    <span>Loading...</span>
+                  </>
+                ) : (
+                  'Submit Application'
+                )}
               </button>
             </div>
           </form>
