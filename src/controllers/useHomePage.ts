@@ -53,7 +53,7 @@ export function useHomePage() {
     setSubmitStatus('idle');
 
     try {
-      const response = await fetch('https://backend.magicmond.com/api/MagicMondLearnRegistration', {
+      const response = await fetch(`${import.meta.env.VITE_API_BASE_URL}/api/MagicMondLearnRegistration`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
